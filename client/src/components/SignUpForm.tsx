@@ -1,27 +1,60 @@
 import React from "react";
 import { Button, CheckBox, TextInput } from "../components";
 import { Link } from "react-router-dom";
-import { Formik, Form } from "formik";
+import { Formik, useFormik } from "formik";
 import { SignUpSchema } from "../shared";
+import { useSignUpMutation } from "../redux";
 
 export function SignUpForm() {
+    const [signup, { data, isLoading, isError }] = useSignUpMutation();
+
     return (
         <div className="w-[500px] h-4/5 bg-[rgba(0,0,0,0.6)] p-4 py-8 sm:p-16 rounded-md ">
             <div className="text-3xl font-bold">Sign Up</div>
 
             <Formik
-                initialValues={{ email: "", password: "", confirmPassword: "" }}
-                onSubmit={(values) => {
-                    console.log(values);
+                initialValues={{
+                    fullName: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: "",
                 }}
                 validationSchema={SignUpSchema}
+                onSubmit={() => {}}
             >
                 {(formik) => {
                     return (
                         <form
                             className="flex flex-col gap-4 mt-10"
-                            onSubmit={formik.handleSubmit}
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                console.log(formik.errors, formik.isValid);
+                                if (formik.isValid) {
+                                    const { fullName, email, password } = formik.values;
+                                    signup({
+                                        fullName,
+                                        username: email,
+                                        password: password,
+                                    });
+                                }
+                            }}
                         >
+                            <div>
+                                <TextInput
+                                    label="Full Name"
+                                    type="fullName"
+                                    name="fullName"
+                                    id="fullName"
+                                    value={formik.values.fullName}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                />
+                                {formik.touched.fullName && formik.errors.fullName && (
+                                    <div className="text-red-500 ml-2 text-sm ">
+                                        {formik.errors.fullName}
+                                    </div>
+                                )}
+                            </div>
                             <div>
                                 <TextInput
                                     label="Email or mobile number"
@@ -38,7 +71,6 @@ export function SignUpForm() {
                                     </div>
                                 )}
                             </div>
-
                             <div>
                                 <TextInput
                                     label="Password"
@@ -72,12 +104,12 @@ export function SignUpForm() {
                                         </div>
                                     )}
                             </div>
-
                             <Button
                                 label="Sign up"
                                 primary
                                 className="w-full"
                                 type="submit"
+                                isLoading={isLoading}
                             />
                         </form>
                     );

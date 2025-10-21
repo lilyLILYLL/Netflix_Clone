@@ -55,6 +55,7 @@ export function TextInput({ label, className, ...props }: TextInputProps) {
                     className={`outline-none bg-transparent mt-4 bg-red-600 ${className}`}
                     ref={inputRef}
                     onFocus={() => setIsFocused(true)}
+                    autoComplete="off"
                     {...props}
                 />
             </div>

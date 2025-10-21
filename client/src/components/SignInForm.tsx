@@ -1,24 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, CheckBox, TextInput } from "../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useRoutes } from "react-router-dom";
 import { Formik, Form } from "formik";
 import { AuthenticationSchema } from "../shared";
+import {
+    logIn,
+    useAppDisptach,
+    useAppSelector,
+    useLogInMutation,
+    type RootState,
+} from "../redux";
 
 export function SignInForm() {
+    const navigate = useNavigate();
+    const [logInUser, { data, error, isLoading, isError, isSuccess }] =
+        useLogInMutation();
+    const dispatch = useAppDisptach();
+    const auth = useAppSelector((state: RootState) => state.userSlice);
+    console.log(auth);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    useEffect(() => {
+        // sucesss
+        if (isSuccess && data) {
+            dispatch(logIn(data));
+            navigate("/user");
+            return;
+        }
+        // error
+        if (isError) {
+            setErrorMessage("Invalid Email or Password!");
+            return;
+        }
+    }, [isSuccess, isError]);
+
     return (
         <div className="w-[500px] h-4/5 bg-[rgba(0,0,0,0.6)] p-4 py-8 sm:p-16 rounded-md ">
             <div className="text-3xl font-bold">Sign In</div>
+            {error && (
+                <div className="bg-yellow-500 p-2 rounded-md mt-6">{errorMessage}</div>
+            )}
 
             <Formik
                 initialValues={{ username: "", password: "" }}
                 onSubmit={(values) => {
-                    console.log(values);
+                    logInUser(values);
                 }}
                 validationSchema={AuthenticationSchema}
             >
                 {(formik) => {
                     return (
-                        <Form className="flex flex-col gap-4 mt-10">
+                        <Form className="flex flex-col gap-4 mt-6">
                             <div>
                                 <TextInput
                                     label="Email or mobile number"
@@ -58,6 +90,7 @@ export function SignInForm() {
                                 primary
                                 className="w-full"
                                 type="submit"
+                                isLoading={isLoading}
                             />
                         </Form>
                     );

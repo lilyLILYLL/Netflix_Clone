@@ -1,9 +1,10 @@
 import React from "react";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     label: string;
     primary?: boolean;
     underline?: boolean;
+    isLoading?: boolean;
 }
 
 export function Button({
@@ -11,6 +12,7 @@ export function Button({
     primary = false,
     underline = false,
     className,
+    isLoading = false,
     ...props
 }: ButtonProps) {
     if (underline)
@@ -29,7 +31,11 @@ export function Button({
             } p-2 rounded-md  cursor-pointer  flex items-center justify-center ${className}`}
             {...props}
         >
-            {label}
+            {isLoading ? (
+                <AiOutlineLoading3Quarters className="size-5 font-bold" />
+            ) : (
+                label
+            )}
         </button>
     );
 }

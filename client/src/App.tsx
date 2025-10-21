@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SignInPage, HomePage, SignUpPage } from "./pages";
+import { SignInPage, HomePage, SignUpPage, StreamingPage } from "./pages";
 import "./App.css";
 import { Provider } from "react-redux";
 import { store } from "./redux";
@@ -21,6 +21,10 @@ function App() {
                     <Route
                         path="/login"
                         element={<SignInPage />}
+                    />
+                    <Route
+                        path="/user"
+                        element={<StreamingPage />}
                     />
                 </Routes>
             </BrowserRouter>
