@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (min-width: 600px) {
+    .background-image {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+            url("src/assets/background_banner.jpg");
+        max-height: 100svh;
+    }
+}
