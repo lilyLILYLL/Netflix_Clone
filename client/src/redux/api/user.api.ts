@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { IAuthState, IUser, UserAuth } from "../../shared";
+import { emailSchema, type IAuthState, type IUser, type UserAuth } from "../../shared";
 
 export const authApi = createApi({
     reducerPath: "userApi",
@@ -19,7 +19,11 @@ export const authApi = createApi({
                 body: user,
             }),
         }),
+        checkifUserExist: build.query<{ existing: boolean }, string>({
+            query: (email) => `users/check?email=${email}`,
+        }),
     }),
 });
 
-export const { useLogInMutation, useSignUpMutation } = authApi;
+export const { useLogInMutation, useSignUpMutation, useLazyCheckifUserExistQuery } =
+    authApi;

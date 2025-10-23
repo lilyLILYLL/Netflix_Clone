@@ -1,3 +1,7 @@
-import { signUpController, logInController } from './authenticationController';
+import {
+  signUpController,
+  logInController,
+  checkIfAUserExistController,
+} from './authenticationController';
 
-export { signUpController, logInController };
+export { signUpController, logInController, checkIfAUserExistController };

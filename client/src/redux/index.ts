@@ -1,6 +1,10 @@
 import { store, useAppDisptach, useAppSelector } from "./store";
 import type { RootState, AppDispatch } from "./store";
-import { useLogInMutation, useSignUpMutation } from "./api/user.api";
+import {
+    useLogInMutation,
+    useSignUpMutation,
+    useLazyCheckifUserExistQuery,
+} from "./api/user.api";
 import { logIn, logout } from "./slices";
 
 export {
@@ -9,6 +13,7 @@ export {
     useAppSelector,
     useLogInMutation,
     useSignUpMutation,
+    useLazyCheckifUserExistQuery,
     logout,
     logIn,
 };

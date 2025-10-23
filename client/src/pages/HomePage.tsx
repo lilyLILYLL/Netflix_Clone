@@ -1,12 +1,24 @@
-import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Logo } from "../assets";
 import { Button, TextInput, Accordion } from "../components";
 import { netflixFAQs, emailSchema } from "../shared";
-import { Formik } from "formik";
+import { Formik, type FormikProps } from "formik";
+import { useLazyCheckifUserExistQuery } from "../redux";
+import { useEffect } from "react";
 
 export function HomePage() {
     const navigate = useNavigate();
+    const [checkIfUserExist, { isLoading }] = useLazyCheckifUserExistQuery();
+
+    const handleCheckIfUserExist = async (formik: FormikProps<{ email: string }>) => {
+        const { email } = formik.values;
+        const result = await checkIfUserExist(email);
+        // navigate to the coresponding page based on the email
+        navigate(result.data?.existing ? "/login" : "/signup", {
+            state: { email },
+        });
+    };
+
     return (
         <div className="bg-[#000] background-image w-screen min-h-screen flex justify-center ">
             <div className=" w-[80%]">
@@ -37,7 +49,7 @@ export function HomePage() {
                         </div>
 
                         <Formik
-                            initialValues={{ email: "" }}
+                            initialValues={{ email: "test@gmail.com" }}
                             onSubmit={(values) => console.log(values)}
                             validationSchema={emailSchema}
                         >
@@ -48,7 +60,10 @@ export function HomePage() {
                                         onSubmit={(e) => {
                                             e.preventDefault();
 
-                                            if (!formik.touched.email)
+                                            if (
+                                                !formik.values.email &&
+                                                !formik.touched.email
+                                            )
                                                 formik.setErrors({
                                                     email: "Email is required",
                                                 });
@@ -56,8 +71,9 @@ export function HomePage() {
                                             if (
                                                 !formik.errors.email &&
                                                 formik.values.email
-                                            )
-                                                navigate("/signup");
+                                            ) {
+                                                handleCheckIfUserExist(formik);
+                                            }
                                         }}
                                     >
                                         <div className="flex flex-col gap-2">
@@ -81,8 +97,9 @@ export function HomePage() {
                                         <Button
                                             label="Get Started >"
                                             primary
-                                            className="m-1 font-bold h-[65px]"
+                                            className="m-1 font-bold h-[65px] min-w-[100px]"
                                             type="submit"
+                                            isLoading={isLoading}
                                         />
                                     </form>
                                 );

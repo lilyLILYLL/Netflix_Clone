@@ -2,6 +2,7 @@ import * as Yup from "yup";
 
 export const AuthenticationSchema = Yup.object().shape({
     username: Yup.string()
+        .trim()
         .email("Please enter a valid email address.")
         .required("Required"),
     password: Yup.string()

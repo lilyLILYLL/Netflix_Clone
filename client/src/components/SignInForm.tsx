@@ -3,6 +3,7 @@ import { Button, CheckBox, TextInput } from "../components";
 import { Link, useNavigate, useRoutes } from "react-router-dom";
 import { Formik, Form } from "formik";
 import { AuthenticationSchema } from "../shared";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 import {
     logIn,
     useAppDisptach,
@@ -10,15 +11,18 @@ import {
     useLogInMutation,
     type RootState,
 } from "../redux";
+type SignInFormProps = {
+    email?: string;
+};
 
-export function SignInForm() {
+export function SignInForm({ email }: SignInFormProps) {
     const navigate = useNavigate();
     const [logInUser, { data, error, isLoading, isError, isSuccess }] =
         useLogInMutation();
     const dispatch = useAppDisptach();
     const auth = useAppSelector((state: RootState) => state.userSlice);
-    console.log(auth);
-    const [errorMessage, setErrorMessage] = useState("");
+
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         // sucesss
@@ -29,7 +33,7 @@ export function SignInForm() {
         }
         // error
         if (isError) {
-            setErrorMessage("Invalid Email or Password!");
+            setMessage("Invalid Email or Password!");
             return;
         }
     }, [isSuccess, isError]);
@@ -37,18 +41,25 @@ export function SignInForm() {
     return (
         <div className="w-[500px] h-4/5 bg-[rgba(0,0,0,0.6)] p-4 py-8 sm:p-16 rounded-md ">
             <div className="text-3xl font-bold">Sign In</div>
-            {error && (
-                <div className="bg-yellow-500 p-2 rounded-md mt-6">{errorMessage}</div>
-            )}
+            {error && <div className="bg-yellow-500 p-2 rounded-md mt-6">{message}</div>}
 
+            {/* {email && !error && (
+                <div className="bg-blue-300 p-3 rounded-md mt-6 flex flex-row gap-2 justify-center items-center">
+                    <IoIosInformationCircleOutline size={60} />
+                    {
+                        "It looks like you already have an account. Sign in below to start watching Netflix"
+                    }
+                </div>
+            )} */}
             <Formik
-                initialValues={{ username: "", password: "" }}
+                initialValues={{ username: email || "", password: "" }}
                 onSubmit={(values) => {
                     logInUser(values);
                 }}
                 validationSchema={AuthenticationSchema}
             >
                 {(formik) => {
+                    console.log(formik.values);
                     return (
                         <Form className="flex flex-col gap-4 mt-6">
                             <div>

@@ -1,11 +1,14 @@
 import React from "react";
 import { Logo } from "../assets";
 import { SignInForm } from "../components";
-
 import "../App.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
 export function SignInPage() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const { email } = location.state || {};
+
     return (
         <div className={`w-screen min-h-screen  background-image`}>
             <img
@@ -14,7 +17,7 @@ export function SignInPage() {
                 onClick={() => navigate("/")}
             />
             <div className="flex flex-row justify-center items-center min-h-screen ">
-                <SignInForm />
+                <SignInForm email={email} />
             </div>
         </div>
     );

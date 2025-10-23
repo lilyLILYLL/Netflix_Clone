@@ -10,6 +10,7 @@ export type UserAuth = {
 export interface IUser {
     username: string;
     fullName: string;
+    
 }
 
 export interface IAuthState {

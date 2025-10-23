@@ -77,3 +77,21 @@ export async function logInController(req: Request, res: Response) {
     user: { username: user.username, fullName: user.fullName },
   });
 }
+export async function checkIfAUserExistController(req: Request, res: Response) {
+  setTimeout(() => {
+    const { email } = req.query;
+    if (!email) {
+      return res.status(400).json({ message: 'Email is required!' });
+    }
+
+    const existingEmail = users.find((user) => user.username === email);
+
+    // the email does not exist
+    if (!existingEmail) {
+      return res.status(200).json({ existing: false });
+    }
+
+    // the email exists
+    return res.status(200).json({ existing: true });
+  }, 1000);
+}

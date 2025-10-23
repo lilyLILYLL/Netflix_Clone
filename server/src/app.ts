@@ -1,5 +1,9 @@
 import express from 'express';
-import { signUpController, logInController } from './controllers';
+import {
+  signUpController,
+  logInController,
+  checkIfAUserExistController,
+} from './controllers';
 import { authMiddleware } from './middlewares';
 
 const cors = require('cors');
@@ -14,5 +18,6 @@ app.use('/', router);
 
 router.post('/signup', signUpController);
 router.post('/login', logInController);
+router.get('/users/check', checkIfAUserExistController);
 
 export default app;
