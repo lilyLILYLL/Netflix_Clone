@@ -28,7 +28,7 @@ export function SignInForm({ email }: SignInFormProps) {
         // sucesss
         if (isSuccess && data) {
             dispatch(logIn(data));
-            navigate("/user");
+            navigate("/browse");
             return;
         }
         // error
@@ -59,7 +59,6 @@ export function SignInForm({ email }: SignInFormProps) {
                 validationSchema={AuthenticationSchema}
             >
                 {(formik) => {
-                    console.log(formik.values);
                     return (
                         <Form className="flex flex-col gap-4 mt-6">
                             <div>

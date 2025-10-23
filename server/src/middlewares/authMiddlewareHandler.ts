@@ -13,7 +13,6 @@ export function authMiddleware(
   next: NextFunction,
 ) {
   const authHeader = req.headers.authorization;
-  console.log(authHeader);
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res
@@ -30,5 +29,4 @@ export function authMiddleware(
   } catch (err) {
     return res.status(401).json({ message: 'Invalid or expired token' });
   }
-  
 }

@@ -4,7 +4,6 @@ import { Button, TextInput, Accordion } from "../components";
 import { netflixFAQs, emailSchema } from "../shared";
 import { Formik, type FormikProps } from "formik";
 import { useLazyCheckifUserExistQuery } from "../redux";
-import { useEffect } from "react";
 
 export function HomePage() {
     const navigate = useNavigate();
@@ -20,7 +19,7 @@ export function HomePage() {
     };
 
     return (
-        <div className="bg-[#000] background-image w-screen min-h-screen flex justify-center ">
+        <div className="bg-[#000] background-image w-full min-h-screen flex justify-center ">
             <div className=" w-[80%]">
                 <img
                     src={Logo}

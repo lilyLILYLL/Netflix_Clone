@@ -1,6 +1,6 @@
 import { SignInPage } from "./SignInPage";
 import { HomePage } from "./HomePage";
 import { SignUpPage } from "./SignUpPage";
-import { StreamingPage } from "./StreamingPage";
+import { BrowsePage } from "./BrowsePage";
 
-export { SignInPage, HomePage, SignUpPage, StreamingPage };
+export { SignInPage, HomePage, SignUpPage, BrowsePage };

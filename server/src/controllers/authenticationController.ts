@@ -16,7 +16,6 @@ users.push({
 
 export async function signUpController(req: Request, res: Response) {
   const { fullName, username, password } = req.body;
-  console.log(fullName, username, password);
 
   if (!username || !password) {
     return res.status(400).json({ message: 'Username and password required' });
@@ -41,7 +40,6 @@ export async function signUpController(req: Request, res: Response) {
 
 export async function logInController(req: Request, res: Response) {
   const { username, password } = req.body;
-  console.log(username, password);
 
   if (!username || !password) {
     return res
